@@ -1,0 +1,292 @@
+
+02b_coding_marathon.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000176  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001ca  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001ca  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001fc  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  00000238  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000766  00000000  00000000  00000260  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005e0  00000000  00000000  000009c6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000312  00000000  00000000  00000fa6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000034  00000000  00000000  000012b8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000345  00000000  00000000  000012ec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001c3  00000000  00000000  00001631  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  000017f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 60 00 	call	0xc0	; 0xc0 <main>
+  64:	0c 94 b9 00 	jmp	0x172	; 0x172 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <checkPress>:
+#include <avr/io.h>
+#define F_CPU 8000000UL
+#include <util/delay.h>
+
+unsigned char checkPress() {
+	for (unsigned char i = 0; i<8; i++) {
+  6c:	20 e0       	ldi	r18, 0x00	; 0
+  6e:	22 c0       	rjmp	.+68     	; 0xb4 <checkPress+0x48>
+		if (~PIND & (1 << i)) {
+  70:	80 b3       	in	r24, 0x10	; 16
+  72:	90 e0       	ldi	r25, 0x00	; 0
+  74:	80 95       	com	r24
+  76:	90 95       	com	r25
+  78:	02 2e       	mov	r0, r18
+  7a:	02 c0       	rjmp	.+4      	; 0x80 <checkPress+0x14>
+  7c:	95 95       	asr	r25
+  7e:	87 95       	ror	r24
+  80:	0a 94       	dec	r0
+  82:	e2 f7       	brpl	.-8      	; 0x7c <checkPress+0x10>
+  84:	80 ff       	sbrs	r24, 0
+  86:	15 c0       	rjmp	.+42     	; 0xb2 <checkPress+0x46>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  88:	3f e7       	ldi	r19, 0x7F	; 127
+  8a:	88 e3       	ldi	r24, 0x38	; 56
+  8c:	91 e0       	ldi	r25, 0x01	; 1
+  8e:	31 50       	subi	r19, 0x01	; 1
+  90:	80 40       	sbci	r24, 0x00	; 0
+  92:	90 40       	sbci	r25, 0x00	; 0
+  94:	e1 f7       	brne	.-8      	; 0x8e <checkPress+0x22>
+  96:	00 c0       	rjmp	.+0      	; 0x98 <checkPress+0x2c>
+  98:	00 00       	nop
+			_delay_ms(50);
+			if (~PIND & (1 << i)){
+  9a:	80 b3       	in	r24, 0x10	; 16
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	80 95       	com	r24
+  a0:	90 95       	com	r25
+  a2:	02 2e       	mov	r0, r18
+  a4:	02 c0       	rjmp	.+4      	; 0xaa <checkPress+0x3e>
+  a6:	95 95       	asr	r25
+  a8:	87 95       	ror	r24
+  aa:	0a 94       	dec	r0
+  ac:	e2 f7       	brpl	.-8      	; 0xa6 <checkPress+0x3a>
+  ae:	80 fd       	sbrc	r24, 0
+  b0:	05 c0       	rjmp	.+10     	; 0xbc <checkPress+0x50>
+#include <avr/io.h>
+#define F_CPU 8000000UL
+#include <util/delay.h>
+
+unsigned char checkPress() {
+	for (unsigned char i = 0; i<8; i++) {
+  b2:	2f 5f       	subi	r18, 0xFF	; 255
+  b4:	28 30       	cpi	r18, 0x08	; 8
+  b6:	e0 f2       	brcs	.-72     	; 0x70 <checkPress+0x4>
+			if (~PIND & (1 << i)){
+				return 1;
+			}
+		}
+	}
+	return 0;
+  b8:	80 e0       	ldi	r24, 0x00	; 0
+  ba:	08 95       	ret
+unsigned char checkPress() {
+	for (unsigned char i = 0; i<8; i++) {
+		if (~PIND & (1 << i)) {
+			_delay_ms(50);
+			if (~PIND & (1 << i)){
+				return 1;
+  bc:	81 e0       	ldi	r24, 0x01	; 1
+			}
+		}
+	}
+	return 0;
+}
+  be:	08 95       	ret
+
+000000c0 <main>:
+
+	}
+	*/
+
+	// Task 5: Use Port B to control LEDs, and Port D as button inputs. When program starts, it blinks PB7 at 0.1Hz. When any button(s) is/are pressed, the program blinks PB7 at 10Hz
+	DDRB = 0xff;
+  c0:	8f ef       	ldi	r24, 0xFF	; 255
+  c2:	87 bb       	out	0x17, r24	; 23
+	DDRD = 0x00;	
+  c4:	11 ba       	out	0x11, r1	; 17
+	unsigned char isPressed = 0;
+
+	
+	while(1) {
+		isPressed = checkPress();
+  c6:	0e 94 36 00 	call	0x6c	; 0x6c <checkPress>
+
+		if (isPressed == 0) {
+  ca:	81 11       	cpse	r24, r1
+  cc:	3b c0       	rjmp	.+118    	; 0x144 <main+0x84>
+			PORTB = 0x7F;
+  ce:	9f e7       	ldi	r25, 0x7F	; 127
+  d0:	98 bb       	out	0x18, r25	; 24
+			for (uint32_t i = 0; i<5000; i++) {
+  d2:	c1 2c       	mov	r12, r1
+  d4:	d1 2c       	mov	r13, r1
+  d6:	76 01       	movw	r14, r12
+  d8:	0f c0       	rjmp	.+30     	; 0xf8 <main+0x38>
+				isPressed = checkPress();
+  da:	0e 94 36 00 	call	0x6c	; 0x6c <checkPress>
+				if (isPressed == 1) {
+  de:	81 30       	cpi	r24, 0x01	; 1
+  e0:	91 f0       	breq	.+36     	; 0x106 <main+0x46>
+  e2:	ef ec       	ldi	r30, 0xCF	; 207
+  e4:	f7 e0       	ldi	r31, 0x07	; 7
+  e6:	31 97       	sbiw	r30, 0x01	; 1
+  e8:	f1 f7       	brne	.-4      	; 0xe6 <main+0x26>
+  ea:	00 c0       	rjmp	.+0      	; 0xec <main+0x2c>
+  ec:	00 00       	nop
+	while(1) {
+		isPressed = checkPress();
+
+		if (isPressed == 0) {
+			PORTB = 0x7F;
+			for (uint32_t i = 0; i<5000; i++) {
+  ee:	ff ef       	ldi	r31, 0xFF	; 255
+  f0:	cf 1a       	sub	r12, r31
+  f2:	df 0a       	sbc	r13, r31
+  f4:	ef 0a       	sbc	r14, r31
+  f6:	ff 0a       	sbc	r15, r31
+  f8:	28 e8       	ldi	r18, 0x88	; 136
+  fa:	c2 16       	cp	r12, r18
+  fc:	23 e1       	ldi	r18, 0x13	; 19
+  fe:	d2 06       	cpc	r13, r18
+ 100:	e1 04       	cpc	r14, r1
+ 102:	f1 04       	cpc	r15, r1
+ 104:	50 f3       	brcs	.-44     	; 0xda <main+0x1a>
+				if (isPressed == 1) {
+					break;
+				}
+				_delay_ms(1);
+			}
+			if (isPressed == 1) continue;;
+ 106:	81 30       	cpi	r24, 0x01	; 1
+ 108:	f1 f2       	breq	.-68     	; 0xc6 <main+0x6>
+
+			PORTB = 0xFF;
+ 10a:	8f ef       	ldi	r24, 0xFF	; 255
+ 10c:	88 bb       	out	0x18, r24	; 24
+			for (uint32_t i = 0; i<5000; i++) {
+ 10e:	c1 2c       	mov	r12, r1
+ 110:	d1 2c       	mov	r13, r1
+ 112:	76 01       	movw	r14, r12
+ 114:	0f c0       	rjmp	.+30     	; 0x134 <main+0x74>
+				isPressed = checkPress();
+ 116:	0e 94 36 00 	call	0x6c	; 0x6c <checkPress>
+				if (isPressed == 1) {
+ 11a:	81 30       	cpi	r24, 0x01	; 1
+ 11c:	a1 f2       	breq	.-88     	; 0xc6 <main+0x6>
+ 11e:	8f ec       	ldi	r24, 0xCF	; 207
+ 120:	97 e0       	ldi	r25, 0x07	; 7
+ 122:	01 97       	sbiw	r24, 0x01	; 1
+ 124:	f1 f7       	brne	.-4      	; 0x122 <main+0x62>
+ 126:	00 c0       	rjmp	.+0      	; 0x128 <main+0x68>
+ 128:	00 00       	nop
+				_delay_ms(1);
+			}
+			if (isPressed == 1) continue;;
+
+			PORTB = 0xFF;
+			for (uint32_t i = 0; i<5000; i++) {
+ 12a:	9f ef       	ldi	r25, 0xFF	; 255
+ 12c:	c9 1a       	sub	r12, r25
+ 12e:	d9 0a       	sbc	r13, r25
+ 130:	e9 0a       	sbc	r14, r25
+ 132:	f9 0a       	sbc	r15, r25
+ 134:	e8 e8       	ldi	r30, 0x88	; 136
+ 136:	ce 16       	cp	r12, r30
+ 138:	e3 e1       	ldi	r30, 0x13	; 19
+ 13a:	de 06       	cpc	r13, r30
+ 13c:	e1 04       	cpc	r14, r1
+ 13e:	f1 04       	cpc	r15, r1
+ 140:	50 f3       	brcs	.-44     	; 0x116 <main+0x56>
+ 142:	c1 cf       	rjmp	.-126    	; 0xc6 <main+0x6>
+				}
+				_delay_ms(1);
+			}
+			if (isPressed ==1) continue;;
+		} else {
+			PORTB = 0x7F;
+ 144:	8f e7       	ldi	r24, 0x7F	; 127
+ 146:	88 bb       	out	0x18, r24	; 24
+ 148:	ff e7       	ldi	r31, 0x7F	; 127
+ 14a:	28 e3       	ldi	r18, 0x38	; 56
+ 14c:	81 e0       	ldi	r24, 0x01	; 1
+ 14e:	f1 50       	subi	r31, 0x01	; 1
+ 150:	20 40       	sbci	r18, 0x00	; 0
+ 152:	80 40       	sbci	r24, 0x00	; 0
+ 154:	e1 f7       	brne	.-8      	; 0x14e <main+0x8e>
+ 156:	00 c0       	rjmp	.+0      	; 0x158 <main+0x98>
+ 158:	00 00       	nop
+			_delay_ms(50);
+			PORTB = 0xFF;
+ 15a:	8f ef       	ldi	r24, 0xFF	; 255
+ 15c:	88 bb       	out	0x18, r24	; 24
+ 15e:	9f e7       	ldi	r25, 0x7F	; 127
+ 160:	e8 e3       	ldi	r30, 0x38	; 56
+ 162:	f1 e0       	ldi	r31, 0x01	; 1
+ 164:	91 50       	subi	r25, 0x01	; 1
+ 166:	e0 40       	sbci	r30, 0x00	; 0
+ 168:	f0 40       	sbci	r31, 0x00	; 0
+ 16a:	e1 f7       	brne	.-8      	; 0x164 <main+0xa4>
+ 16c:	00 c0       	rjmp	.+0      	; 0x16e <main+0xae>
+ 16e:	00 00       	nop
+ 170:	aa cf       	rjmp	.-172    	; 0xc6 <main+0x6>
+
+00000172 <_exit>:
+ 172:	f8 94       	cli
+
+00000174 <__stop_program>:
+ 174:	ff cf       	rjmp	.-2      	; 0x174 <__stop_program>
