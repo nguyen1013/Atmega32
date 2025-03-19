@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 
 # nguyen
-*.vs/
-*Debug/
-*.xml
+**/.vs/
+**/Debug/
+**/*.xml
