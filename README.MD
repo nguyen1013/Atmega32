@@ -22,6 +22,8 @@ microcontroller. Several different programmers are available for Atmega. We use 
 Menu -> Tools -> Device Programming
 ![Setting device](./assets/setting2.jpg)
 
+## Documentation
+[Introduction to Embedded Systems](./assets/EmbeddedSystemProgrammingATmega328.pdf)
 
 ## Datasheet
 [Atmega32 Datasheet](./assets/atmega32.pdf)
