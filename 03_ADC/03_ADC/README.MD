@@ -15,6 +15,8 @@ ATmega32 ADC
 
 Note: take away the jumper of PAx if connect ADC device to pin PAx
 ![Analog Devices](./img/adc-components.jpg)
+![ADC to portA](./img/adc-connection.jpg)
+
 
 - Photoresistor: The resistance may change from MΩ to a few hundreds Ω, so in the following circuits, the LDR voltage may vary between Vcc to 0.2V, depending on the intensity of light.
   ![Photoresistor](./img/photo-resistor.jpg)
